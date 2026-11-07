@@ -1,4 +1,5 @@
 export interface HaTheme {
+  direction?: "ltr" | "rtl";
   mode: "light" | "dark";
   primary: string;
   secondary: string;

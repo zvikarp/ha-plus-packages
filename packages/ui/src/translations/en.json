@@ -1,0 +1,20 @@
+{
+  "save": "Save",
+  "cancel": "Cancel",
+  "close": "Close",
+  "delete": "Delete",
+  "edit": "Edit",
+  "add": "Add",
+  "refresh": "Refresh",
+  "loading": "Loading\u2026",
+  "retry": "Retry",
+  "settings": "Settings",
+  "yes": "Yes",
+  "no": "No",
+  "apply": "Apply",
+  "confirm": "Confirm",
+  "more_actions": "More actions",
+  "dashboard_load_failed": "Home Assistant's dashboard controls could not load. Reload and try again.",
+  "controls_load_failed": "Home Assistant's to-do controls could not load. Reload and try again.",
+  "component_load_failed": "Home Assistant could not load {component}. Reload and try again."
+}

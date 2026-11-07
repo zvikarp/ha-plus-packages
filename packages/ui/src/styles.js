@@ -37,8 +37,21 @@ export const themeStyles = `
 `;
 
 
+
+export const nativeStyles = `
+  .ha-plus-header-heading { flex: 1; min-width: 0; }
+  .ha-plus-header-heading h1 { overflow-wrap: anywhere; }
+  .ha-plus-header-heading p { margin: 4px 0 0; font-size: 12px; }
+  .ha-plus-dialog-message { white-space: pre-line; overflow-wrap: anywhere; padding: 8px 24px; }
+  .ha-plus-dialog-actions { display: flex; flex-wrap: wrap; justify-content: end; gap: 8px; }
+  ha-alert.notice { padding: 0; background: transparent; }
+  ha-form.field { min-width: 0; }
+  .ha-plus-header { min-height: var(--header-height, 56px); border-bottom: 1px solid var(--divider-color, #e0e0e0); }
+  ha-dialog { --mdc-dialog-min-width: min(420px, calc(100vw - 32px)); --mdc-dialog-max-width: 560px; }
+`;
+
 /** Shared presentation classes for panels, detail cards and dashboards. */
-export const appStyles = `${themeStyles}
+export const appStyles = `${themeStyles}${nativeStyles}
   :host {
     container-type: inline-size;
   }
