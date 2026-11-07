@@ -97,3 +97,39 @@ All consuming shadow hosts establish an inline-size container. Applications may
 keep separate classes for querying elements in their own code, but those classes
 do not define local styles. The base `themeStyles` export remains available for
 existing consumers.
+
+## Collections and control surfaces
+
+`collectionStyles` combines the shared theme with native-HA collection navigation,
+item rows, metadata forms, responsive master/detail layouts and native dialogs.
+`controlStyles` provides HA cards, sliders, preset swatches, status indicators
+and a responsive control dashboard. Both exports are complete shadow-root
+stylesheets. Applications supply markup and behavior without local CSS.
+
+`actionButton`, `iconButton`, `nativeTextField` and `nativeForm` wrap HA-owned
+controls, including supported modern and legacy generations.
+`colorSwatch(button, rgb)` validates three RGB channels in the range 0–255 and
+applies a preset color inside the shared styling layer.
+
+`iframePanelStyles` provides the HA sidebar wrapper for an embedded application.
+
+## React and MUI
+
+Import `createAppTheme`, `muiStyles`, `inlineStyles`, `brandLinkStyles` and
+`globalStyles` from `@ha-plus/ui/mui`. The optional adapter uses the consuming
+application's MUI 7 installation. It owns component overrides, reusable layout
+styles, QR presentation, brand sizing and the RJSF nested-array compatibility
+rule. Compose the exported styles through MUI's `sx` API and supplied inline
+style objects. Keep style definitions in the shared package.
+
+`@ha-plus/ui/ha-theme` exports `defaultHaTheme`, `readHaTheme`,
+`startHaThemeSync` and the `HaTheme` type. It synchronizes inherited HA theme
+variables for same-origin iframes, follows theme changes and cleans up its timer.
+Cross-origin and standalone contexts use local theme values and fallbacks.
+
+## Bundled attribution
+
+Run `ha-plus-ui-licenses OUTPUT_DIRECTORY` during integration builds. This copies
+the package's MIT license, Apache license and attribution notice into the output
+for distribution with bundled code. For Vite builds, copy them into `public`
+before building so they are included in the standalone frontend too.

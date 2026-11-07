@@ -27,4 +27,5 @@ Use patch releases for compatible fixes, minor releases for additive APIs and
 major releases for breaking changes. Upgrade consumers through individual PRs.
 Check supported HA releases when changing use of HA-owned frontend elements.
 
-MIT licensed. See [LICENSE](LICENSE).
+Core UI code uses the MIT license. The Matter Hub adapters retain Apache-2.0.
+See [LICENSE](LICENSE), [LICENSE-APACHE-2.0](LICENSE-APACHE-2.0) and [NOTICE](NOTICE).

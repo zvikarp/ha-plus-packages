@@ -7,9 +7,14 @@
   ],
   "scripts": {
     "test": "npm test --workspaces",
-    "check": "node --check packages/ui/src/index.js && node --check packages/ui/src/styles.js"
+    "check": "node --check packages/ui/src/index.js && node --check packages/ui/src/styles.js && node --check packages/ui/src/mui.js"
   },
   "devDependencies": {
-    "jsdom": "26.1.0"
+    "jsdom": "26.1.0",
+    "@mui/material": "7.3.7",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.1",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
   }
 }

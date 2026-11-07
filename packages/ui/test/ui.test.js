@@ -152,3 +152,37 @@ test('app stylesheet owns responsive layouts, semantic tones and reduced-motion 
   assert.match(appStyles, /animation: none/);
   assert.doesNotMatch(appStyles, /\.water|\.overdue|\.needs_attention|modes_plus|plant_care_plus/);
 });
+
+test('native HA helpers support modern and legacy controls, forms and color presets', async () => {
+  const window = setup();
+  globalThis.customElements = window.customElements;
+  const { actionButton, iconButton, nativeTextField, nativeForm, colorSwatch } = await import('../src/index.js');
+  let calls = 0;
+  const legacy = actionButton('Delete', () => calls++, false, 'danger');
+  assert.equal(legacy.localName, 'mwc-button');
+  assert.ok(legacy.classList.contains('destructive'));
+  window.customElements.define('ha-button', class extends window.HTMLElement {});
+  const modern = actionButton('Save', () => calls++, true, 'accent');
+  assert.equal(modern.localName, 'ha-button');
+  assert.equal(modern.appearance, 'accent');
+  modern.click();
+  assert.equal(calls, 0);
+  modern.disabled = false;
+  modern.click();
+  assert.equal(calls, 1);
+  assert.equal(iconButton('Refresh', 'mdi:refresh', () => {}).label, 'Refresh');
+  let draft;
+  const field = nativeTextField('Name', 'Before', value => { draft = value; });
+  field.value = 'After';
+  field.dispatchEvent(new window.Event('input'));
+  assert.equal(draft, 'After');
+  const form = nativeForm({}, [], {}, value => { draft = value; });
+  form.dispatchEvent(new window.CustomEvent('value-changed', { detail:{ value:{ name:'Test' } } }));
+  assert.deepEqual(draft, { name:'Test' });
+  const swatch = document.createElement('button');
+  colorSwatch(swatch, [255, 90, 80]);
+  assert.equal(swatch.style.backgroundColor, 'rgb(255, 90, 80)');
+  for (const invalid of [null, [], [256, 0, 0], [0, -1, 0], [0, NaN, 0], ['0', 0, 0]]) {
+    assert.throws(() => colorSwatch(swatch, invalid), TypeError);
+  }
+});
