@@ -1,0 +1,15 @@
+{
+  "name": "ha-plus-packages",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "npm test --workspaces",
+    "check": "node --check packages/ui/src/index.js"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}

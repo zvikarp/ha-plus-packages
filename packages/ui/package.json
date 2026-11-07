@@ -1,0 +1,22 @@
+{
+  "name": "@ha-plus/ui",
+  "version": "0.1.0",
+  "description": "Home Assistant-native theme styles and accessible UI primitives for HA+",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zvikarp/ha-plus-packages.git",
+    "directory": "packages/ui"
+  },
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  }
+}
