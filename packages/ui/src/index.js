@@ -1,41 +1,5 @@
-/*! @ha-plus/ui v0.1.0 | MIT | Copyright (c) 2026 HA+ contributors | https://github.com/zvikarp/ha-plus-packages/blob/main/LICENSE */
-/** Theme styles are scoped to the consuming shadow root and inherit HA variables. */
-export const themeStyles = `
-  :host { display:block; color:var(--primary-text-color,#212121); font-family:var(--primary-font-family,var(--paper-font-body1_-_font-family,Roboto,sans-serif)); }
-  *, *::before, *::after { box-sizing:border-box; }
-  [hidden] { display:none !important; }
-  a { color:var(--primary-color,#03a9f4); }
-  ha-icon { flex-shrink:0; }
-  button, input, select, textarea { font:inherit; }
-  button { min-height:44px; padding:10px 16px; border:0; border-radius:var(--ha-button-border-radius,999px); background:var(--secondary-background-color,#f5f5f5); color:var(--primary-color,#03a9f4); cursor:pointer; font-weight:500; }
-  button:hover { filter:brightness(.96); }
-  button.primary { background:var(--primary-color,#03a9f4); color:var(--text-primary-color,#fff); }
-  button.danger { color:var(--error-color,#db4437); }
-  button:disabled { opacity:.5; cursor:default; }
-  :is(button,input,select,textarea,a,summary,[tabindex]):focus-visible { outline:2px solid var(--primary-color,#03a9f4); outline-offset:3px; }
-  .icon-button { display:grid; place-items:center; width:44px; height:44px; min-width:44px; padding:0; border-radius:50%; color:inherit; background:transparent; }
-  .icon-button:hover { background:var(--secondary-background-color,#f5f5f5); }
-  input:not([type=checkbox]):not([type=radio]), textarea { min-height:48px; border:1px solid var(--divider-color,#e0e0e0); border-radius:var(--ha-input-border-radius,14px); padding:10px 14px; color:var(--primary-text-color,#212121); background:var(--secondary-background-color,#f5f5f5); max-width:100%; }
-  ha-card { display:block; background:var(--ha-card-background,var(--card-background-color,#fff)); color:var(--primary-text-color,#212121); border-radius:var(--ha-card-border-radius,12px); box-shadow:var(--ha-card-box-shadow,none); border:var(--ha-card-border-width,1px) solid var(--ha-card-border-color,var(--divider-color,#e0e0e0)); }
-  .field { position:relative; min-width:0; }
-  .field-label { display:block; margin-bottom:8px; color:var(--secondary-text-color,#727272); font-size:14px; }
-  .combobox { display:flex; align-items:center; gap:8px; width:100%; justify-content:space-between; text-align:start; border:1px solid var(--divider-color,#e0e0e0); border-radius:14px; color:var(--primary-text-color,#212121); min-height:48px; padding:10px 14px; }
-  .combobox span { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .listbox { position:absolute; z-index:10; inset-inline:0; top:100%; margin-top:4px; max-height:300px; overflow:auto; padding:6px; background:var(--card-background-color,#fff); border:1px solid var(--divider-color,#e0e0e0); border-radius:14px; box-shadow:var(--ha-card-box-shadow,0 4px 16px #0003); }
-  .option { display:block; width:100%; text-align:start; border-radius:10px; background:transparent; color:var(--primary-text-color,#212121); white-space:normal; overflow-wrap:anywhere; }
-  .option[aria-selected=true] { color:var(--primary-color,#03a9f4); background:var(--secondary-background-color,#f5f5f5); }
-  .ha-plus-header { display:flex; align-items:center; gap:12px; padding:12px 16px; min-height:64px; background:var(--app-header-background-color,var(--primary-background-color,#fafafa)); color:var(--app-header-text-color,var(--primary-text-color,#212121)); }
-  .ha-plus-header h1 { font-size:20px; font-weight:400; flex:1; margin:0; }
-  .ha-plus-content { max-width:1000px; margin:auto; padding:24px; }
-  .notice { padding:12px 16px; margin-bottom:16px; background:var(--secondary-background-color,#f5f5f5); border-radius:14px; overflow-wrap:anywhere; }
-  .error { color:var(--error-color,#db4437); white-space:pre-wrap; }
-  dialog { font:inherit; background:var(--ha-card-background,var(--card-background-color,#fff)); color:var(--primary-text-color,#212121); border:1px solid var(--divider-color,#e0e0e0); border-radius:var(--ha-dialog-border-radius,20px); padding:24px; width:420px; max-width:calc(100% - 32px); max-height:calc(100% - 32px); overflow:auto; }
-  dialog::backdrop { background:#0008; }
-  dialog h2 { margin:0 0 16px; font-size:1.3rem; }
-  dialog p { white-space:pre-line; overflow-wrap:anywhere; }
-  dialog form { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:12px; margin-top:24px; }
-  @media(max-width:700px) { .ha-plus-content { padding:16px; } .ha-plus-header h1 { font-size:18px; } }
-`;
+/*! @ha-plus/ui v0.2.0 | MIT | Copyright (c) 2026 HA+ contributors | https://github.com/zvikarp/ha-plus-packages/blob/main/LICENSE */
+export { themeStyles, appStyles } from "./styles.js";
 
 export function el(tag, text, className) {
   const node = document.createElement(tag);

@@ -137,3 +137,18 @@ test('text fields expose native labels, constraints, disabled state and safe tex
   assert.equal(field.querySelector('span').textContent, '<Group>');
   assert.equal(field.querySelector('group'), null);
 });
+
+test('app stylesheet owns responsive layouts, semantic tones and reduced-motion feedback', async () => {
+  const { appStyles } = await import('../src/index.js');
+  assert.ok(appStyles.startsWith(themeStyles));
+  for (const name of ['ha-plus-form-grid', 'ha-plus-card-grid', 'ha-plus-detail-card', 'ha-plus-stats', 'ha-plus-table', 'ha-plus-feedback']) {
+    assert.ok(appStyles.includes(`.${name}`), `Missing shared pattern ${name}`);
+  }
+  assert.match(appStyles, /\[data-tone=success\]/);
+  assert.match(appStyles, /\[data-tone=warning\]/);
+  assert.match(appStyles, /\[data-tone=error\]/);
+  assert.match(appStyles, /@container \(max-width: 420px\)/);
+  assert.match(appStyles, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.match(appStyles, /animation: none/);
+  assert.doesNotMatch(appStyles, /\.water|\.overdue|\.needs_attention|modes_plus|plant_care_plus/);
+});

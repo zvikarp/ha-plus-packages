@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "test": "npm test --workspaces",
-    "check": "node --check packages/ui/src/index.js"
+    "check": "node --check packages/ui/src/index.js && node --check packages/ui/src/styles.js"
   },
   "devDependencies": {
     "jsdom": "26.1.0"

@@ -10,23 +10,30 @@ Install the versioned `ha-plus-ui-VERSION.tgz` asset from
 Bundle the imports into the integration's frontend with a tool such as esbuild.
 
 ```js
-import { themeStyles, button, panelHeader, notice } from '@ha-plus/ui';
+import { appStyles, button, panelHeader, notice } from '@ha-plus/ui';
 
 shadowRoot.append(
-  Object.assign(document.createElement('style'), { textContent: themeStyles }),
+  Object.assign(document.createElement('style'), { textContent: appStyles }),
   panelHeader('HA+ App', { hass, narrow }),
   notice('Loading…', 'loading'),
   button('Refresh', refresh),
 );
 ```
 
-Include `themeStyles` once in each consuming shadow root before app-specific
-styles. It inherits Home Assistant's current CSS variables, including custom
+Include `appStyles` once in each consuming shadow root. All visual styling belongs
+in this package. Apps compose the shared presentation classes and retain their
+markup, state and event handlers. Add shared patterns here when a new layout is
+needed. Apps must not add CSS rules, style attributes or style-property writes.
+
+The stylesheet inherits Home Assistant's current CSS variables, including custom
 themes and live light/dark changes. Fallbacks allow standalone previews. Layout
-rules use logical properties for RTL and provide 44px action targets and visible
-keyboard focus. Keep feature-specific layouts and state in the application.
+rules use logical properties for RTL and provide 44px action targets, visible
+keyboard focus and reduced-motion support for action feedback.
 
 ## Exports
+
+- `appStyles` includes `themeStyles` and the complete shared presentation system
+  described below. Use this stylesheet for HA+ apps.
 
 - `themeStyles` provides typography, HA cards, buttons, inputs, selectors, dialogs,
   notices and panel layout. Use `.primary`, `.danger` or `.icon-button` for action
@@ -56,3 +63,37 @@ The native `ha-card`, `ha-icon` and `ha-menu-button` elements are owned by Home
 Assistant and must be available in the host frontend. They are isolated here to
 make HA compatibility updates small. Standalone apps need their own theme bridge
 and component adapter. No React or MUI runtime is included.
+
+## Shared presentation classes
+
+Use these classes with semantic HTML or Home Assistant elements. They are shared
+across apps and contain all layout, spacing, typography and state styling.
+
+| Pattern | Classes |
+| --- | --- |
+| Main content and section cards | `ha-plus-content`, `ha-plus-padded-card` |
+| Rows and card grids | `ha-plus-row`, `ha-plus-card-grid` |
+| Form layout and creation form | `ha-plus-form-grid`, `ha-plus-create` |
+| Grouped cards and values | `ha-plus-group` with optional `active`, `ha-plus-value` |
+| Chips | `ha-plus-chips`, `ha-plus-chip` with optional `active` |
+| Detail rows | `ha-plus-detail-row` |
+| Compact card layout | `ha-plus-compact`, `ha-plus-compact-content` |
+| Detail card and header | `ha-plus-detail-card`, `ha-plus-card-header` |
+| Avatar | `ha-plus-avatar` |
+| Status and description | `ha-plus-status`, `ha-plus-description` |
+| Statistics | `ha-plus-stats`, `ha-plus-stat`, `ha-plus-stat-label`, `ha-plus-stat-value` |
+| Card actions and toolbar | `ha-plus-card-actions`, `ha-plus-toolbar` |
+| Scrollable table and text action | `ha-plus-table`, `ha-plus-text-button` |
+| Secondary text and messages | `ha-plus-muted`, `ha-plus-message` |
+| Action feedback | `primary ha-plus-feedback` with `success` after completion |
+
+Map domain states to `data-tone="success"`, `data-tone="warning"` or
+`data-tone="error"` for semantic colors. Domain state names belong to the app.
+The toolbar styles native buttons using `aria-pressed` for selection. Table
+checkboxes retain native behavior. Card grids use the same 280px minimum in all
+apps. Statistic grids use one column below a 420px container width.
+
+All consuming shadow hosts establish an inline-size container. Applications may
+keep separate classes for querying elements in their own code, but those classes
+do not define local styles. The base `themeStyles` export remains available for
+existing consumers.
