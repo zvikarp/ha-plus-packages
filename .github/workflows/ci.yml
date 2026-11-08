@@ -29,5 +29,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
+      - run: pip install ruff==0.16.6
+      - run: ruff check packages/frontend/ha_plus_frontend
+      - run: ruff format --check packages/frontend/ha_plus_frontend
       - run: npm test --workspace @ha-plus/frontend
       - run: npm pack --workspace @ha-plus/frontend --dry-run

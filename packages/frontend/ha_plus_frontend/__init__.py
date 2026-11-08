@@ -67,7 +67,10 @@ async def async_register_frontend(
                     state.extra_js[url] = previous
             panel = hass.data.get(frontend.DATA_PANELS, {}).get(frontend_url_path)
             config = panel.config if panel is not None else None
-            if config and config.get("_panel_custom", {}).get("name") == webcomponent_name:
+            if (
+                config
+                and config.get("_panel_custom", {}).get("name") == webcomponent_name
+            ):
                 state.panel_version = str(config.get("version", ""))
         hass.data[key] = state
     state = hass.data[key]
