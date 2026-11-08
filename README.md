@@ -10,6 +10,14 @@ consumers. Application behavior stays in the individual integrations.
 
 Run `npm ci`, `npm test` and `npm run check` from this directory.
 
+## Frontend integration package
+
+[`@ha-plus/frontend`](packages/frontend/README.md) supplies the Python side of
+panel registration, versioned asset loading, icon modules, and reload handling.
+Its build command bundles an integration-local Python package through each
+app's existing frontend build. The app keeps its own routes, permissions,
+assets, and API handlers. Both packages have independently pinned releases.
+
 ## Releases
 
 The UI package has its own semantic version in `packages/ui/package.json`.

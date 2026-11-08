@@ -1,0 +1,24 @@
+{
+  "name": "@ha-plus/frontend",
+  "version": "0.1.0",
+  "description": "Shared Python frontend registration for self-contained HA+ integrations",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zvikarp/ha-plus-packages.git",
+    "directory": "packages/frontend"
+  },
+  "files": [
+    "ha_plus_frontend/__init__.py",
+    "bin",
+    "LICENSE",
+    "README.md"
+  ],
+  "bin": {
+    "ha-plus-frontend-vendor": "./bin/vendor.js"
+  },
+  "scripts": {
+    "test": "node --test test/vendor.test.js && python3 -m unittest discover -s test -p 'test_*.py'"
+  }
+}
