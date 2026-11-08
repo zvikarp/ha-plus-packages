@@ -23,6 +23,7 @@ for name in (
     sys.modules[name] = ModuleType(name)
 frontend = sys.modules["homeassistant.components.frontend"]
 frontend.DATA_PANELS = "frontend_panels"
+frontend.DATA_EXTRA_MODULE_URL = "frontend_extra_module_url"
 frontend.add_extra_js_url = Mock()
 frontend.remove_extra_js_url = Mock()
 sys.modules["homeassistant.components.http"].StaticPathConfig = lambda *args, **kwargs: (
@@ -48,6 +49,7 @@ class FrontendTests(unittest.IsolatedAsyncioTestCase):
         self.panels = {}
         self.hass.data[frontend.DATA_PANELS] = self.panels
         self.modules = set()
+        self.hass.data[frontend.DATA_EXTRA_MODULE_URL] = self.modules
         self.version = "1.2.3"
         shared.async_get_integration = AsyncMock(
             side_effect=lambda *args: SimpleNamespace(version=self.version)
@@ -188,6 +190,48 @@ class FrontendTests(unittest.IsolatedAsyncioTestCase):
         self.assertFalse(self.panels["ha-plus-example"]["require_admin"])
         self.assertTrue(self.panels["ha-plus-private"]["require_admin"])
         self.assertEqual(self.hass.http.async_register_static_paths.await_count, 2)
+
+    async def test_adopts_legacy_registrations_for_both_historical_flag_names(self):
+        for flag in ("example_frontend_registered", "example_frontend"):
+            with self.subTest(flag=flag):
+                self.setUp()
+                self.hass.data[flag] = True
+                self.modules.update(
+                    {"/example/icon.js?v=1.2.2", "/example/panel.js?v=1.2.2"}
+                )
+                self.panels["ha-plus-example"] = SimpleNamespace(
+                    config={
+                        "version": "1.2.2",
+                        "_panel_custom": {"name": "ha-plus-example-panel"},
+                    }
+                )
+                await self.register()
+                self.hass.http.async_register_static_paths.assert_not_awaited()
+                self.assertEqual(
+                    self.modules,
+                    {"/example/icon.js?v=1.2.3", "/example/panel.js?v=1.2.3"},
+                )
+                self.assertEqual(
+                    self.panels["ha-plus-example"]["config"], {"version": "1.2.3"}
+                )
+
+    async def test_adopts_an_owned_legacy_panel_without_version_metadata(self):
+        self.hass.data["example_frontend_registered"] = True
+        self.panels["ha-plus-example"] = SimpleNamespace(
+            config={
+                "_panel_custom": {"name": "ha-plus-example-panel"},
+            }
+        )
+        await self.register()
+        self.hass.http.async_register_static_paths.assert_not_awaited()
+        self.assertEqual(self.panels["ha-plus-example"]["config"], {"version": "1.2.3"})
+
+    async def test_adopts_legacy_assets_after_the_panel_has_been_unloaded(self):
+        self.hass.data["example_frontend_registered"] = True
+        self.modules.add("/example/panel.js?v=1.2.3")
+        await self.register()
+        self.hass.http.async_register_static_paths.assert_not_awaited()
+        self.assertIn("ha-plus-example", self.panels)
 
     async def test_foreign_panel_is_never_removed(self):
         self.panels["ha-plus-example"] = {"owner": "foreign"}
