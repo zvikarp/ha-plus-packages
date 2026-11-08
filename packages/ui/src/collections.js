@@ -25,7 +25,7 @@ export const collectionStyles = `${appStyles}
     z-index: 1;
     display: flex;
     align-items: center;
-    height: var(--header-height, 64px);
+    height: var(--header-height, 56px);
     padding: 0 12px;
     color: var(--app-header-text-color);
     background: var(--app-header-background-color);
@@ -42,7 +42,7 @@ export const collectionStyles = `${appStyles}
   .layout {
     display: grid;
     grid-template-columns: 256px minmax(0, 1fr);
-    min-height: calc(100dvh - var(--header-height, 64px));
+    min-height: calc(100dvh - var(--header-height, 56px));
   }
 
   nav {

@@ -1,5 +1,5 @@
 import { nativeForm, nativeTextField } from "./native.js";
-/*! @ha-plus/ui v0.4.0-rc.1 | MIT | Copyright (c) 2026 HA+ contributors | https://github.com/zvikarp/ha-plus-packages/blob/main/LICENSE */
+/*! @ha-plus/ui v0.4.0-rc.2 | MIT | Copyright (c) 2026 HA+ contributors | https://github.com/zvikarp/ha-plus-packages/blob/main/LICENSE */
 export { themeStyles, appStyles } from "./styles.js";
 
 import { el, icon, button } from "./dom.js";
