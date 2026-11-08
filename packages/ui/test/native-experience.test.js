@@ -100,6 +100,7 @@ test('native confirmation cancels safely and restores focus', async () => {
   const dialog = host.shadowRoot.querySelector('ha-dialog');
   dialog.dispatchEvent(new view.CustomEvent('closed'));
   assert.equal(await result, false);
+  await new Promise(setImmediate);
   assert.equal(host.shadowRoot.activeElement, trigger);
 });
 
@@ -164,4 +165,27 @@ test('HA standard sliders preserve release-only commits across older versions', 
   assert.deepEqual(changes, []);
   slider.dispatchEvent(new view.Event('change'));
   assert.deepEqual(changes, [25]);
+});
+
+
+test('confirmation restores an explicitly supplied control after the caller reenables it', async () => {
+  const view = setup(['ha-dialog']);
+  view.customElements.define('ha-button', class extends view.HTMLElement {
+    constructor() {
+      super();
+      this.attachShadow({ mode: 'open' }).append(document.createElement('button'));
+    }
+  });
+  const host = document.createElement('div');
+  host.attachShadow({ mode: 'open' });
+  const trigger = document.createElement('ha-button');
+  trigger.disabled = true;
+  host.shadowRoot.append(trigger);
+  document.body.append(host);
+  const result = confirmDialog(host, { title: 'Water?', message: 'Record?', returnFocus: trigger });
+  host.shadowRoot.querySelector('ha-dialog [slot="secondaryAction"]').click();
+  assert.equal(await result, false);
+  trigger.disabled = false;
+  await new Promise(setImmediate);
+  assert.equal(trigger.shadowRoot.activeElement.localName, 'button');
 });
