@@ -6,6 +6,9 @@ import { createAppTheme, muiStyles, inlineStyles, brandLinkStyles, globalStyles 
 test('MUI adapter preserves HA theme colors, card tokens and action sizes', () => {
   const theme = createAppTheme({ ...defaultHaTheme, mode:'dark', primary:'rgb(20, 150, 210)', backgroundDefault:'rgb(17, 17, 17)' });
   assert.equal(theme.palette.mode, 'dark');
+  assert.equal(theme.components.MuiTextField.defaultProps.variant, 'filled');
+  assert.equal(theme.components.MuiFormControl.defaultProps.variant, 'filled');
+  assert.equal(muiStyles.contentCard.p, undefined);
   assert.equal(theme.palette.primary.main, 'rgb(20, 150, 210)');
   assert.equal(theme.palette.background.default, 'rgb(17, 17, 17)');
   assert.equal(theme.components.MuiButton.defaultProps.disableElevation, true);

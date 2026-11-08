@@ -41,6 +41,7 @@ export const collectionLayoutStyles = `
     text-decoration: none; font: 500 14px var(--ha-font-family-body, var(--primary-font-family, Roboto, sans-serif)); cursor: pointer;
   }
   ha-button.ha-plus-create-button, mwc-button.ha-plus-create-button { padding: 0; background: transparent; }
+  .ha-plus-collection-create .ha-plus-create-button { width: 100%; box-sizing: border-box; --ha-button-width: 100%; }
   .ha-plus-create-button:hover { background: var(--ha-color-fill-primary-normal-hover, #caebf9); }
   .ha-plus-create-button:focus-visible { outline: 2px solid var(--primary-color, #03a9f4); outline-offset: 3px; }
   .ha-plus-create-button ha-icon { --mdc-icon-size: 20px; }

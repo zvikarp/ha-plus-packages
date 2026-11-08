@@ -1,7 +1,7 @@
 /*! Adapted from HA+ Matter Hub. Licensed under Apache-2.0. See ha-plus-ui.NOTICE and ha-plus-ui.LICENSE-APACHE-2.0 in the distribution. */
 // Shared presentation for MUI consumers. Values use MUI spacing units.
 export const muiStyles = {
-  contentCard: { p: { xs: 2, sm: 3 }, display: "flex", flexDirection: "column", gap: 3 },
+  contentCard: { display: "flex", flexDirection: "column", gap: 3 },
   centered: { justifyContent: "center" },
   centeredRow: { display: "flex", alignItems: "center" },
   growColumn: {

@@ -144,6 +144,18 @@ export const createAppTheme = (haTheme) =>
           },
         },
       },
+      MuiTextField: { defaultProps: { variant: "filled" } },
+      MuiFormControl: { defaultProps: { variant: "filled" } },
+      MuiFilledInput: {
+        styleOverrides: {
+          root: {
+            borderRadius: "4px 4px 0 0",
+            backgroundColor: "var(--input-fill-color, rgba(127, 127, 127, 0.08))",
+            "&:hover": { backgroundColor: "var(--input-fill-color, rgba(127, 127, 127, 0.12))" },
+            "&.Mui-focused": { backgroundColor: "var(--input-fill-color, rgba(127, 127, 127, 0.08))" },
+          },
+        },
+      },
       MuiOutlinedInput: {
         styleOverrides: {
           root: {

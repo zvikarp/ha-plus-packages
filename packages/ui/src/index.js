@@ -265,3 +265,4 @@ function nativeConfirmation(host, { title, message, confirmLabel, cancelLabel, r
 export { appFooter, footerStyles } from "./footer.js";
 export { collectionLayoutStyles, collectionCreateButton } from "./collection-layout.js";
 export { tabs, tabStyles } from "./tabs.js";
+export { remoteEditorStyles } from "./controls.js";

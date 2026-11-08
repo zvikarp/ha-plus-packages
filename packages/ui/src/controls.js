@@ -227,3 +227,20 @@ export function colorSwatch(button, rgb) {
   }
   button.style.backgroundColor = `rgb(${rgb.join(",")})`;
 }
+
+export const remoteEditorStyles = `${appStyles}
+  :host { display: block; min-width: 0; }
+  .remote-editor { display: flex; flex-direction: column; gap: 20px; }
+  .remote-editor ha-form { display: block; }
+  .remote-command-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .remote-command { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 88px; width: 100%; padding: 12px 8px; border: 1px solid var(--divider-color); border-radius: 8px; background: var(--card-background-color); color: var(--primary-text-color); font: inherit; cursor: pointer; overflow-wrap: anywhere; }
+  .remote-command:focus-visible, .remote-command[aria-pressed=true] { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+  .remote-command small { color: var(--secondary-text-color); }
+  .remote-command[data-required=true] small { font-weight: 600; }
+  .remote-command[data-learned=true] { border-color: var(--success-color, #43a047); }
+  .remote-command:disabled { opacity: .6; cursor: default; }
+  .remote-command-color { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--divider-color); }
+  .remote-editor-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; }
+  .remote-command-details { border-block: 1px solid var(--divider-color); padding-block: 16px; display: flex; flex-direction: column; gap: 16px; }
+  @media (max-width: 450px) { .remote-command-grid { gap: 8px; grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+`;

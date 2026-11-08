@@ -7,6 +7,7 @@ import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import InboxIcon from "@mui/icons-material/Inbox";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -82,8 +83,8 @@ export function AppFooter({ githubUrl, documentationUrl, version }) {
 }
 
 export function ContentCard({ title, actions, children }) {
-  return jsxs(Paper, {
-    variant: "outlined", sx: muiStyles.contentCard,
+  return jsxs(Box, {
+    component: "section", sx: muiStyles.contentCard,
     children: [jsx(PageHeader, { title, actions }), children],
   });
 }

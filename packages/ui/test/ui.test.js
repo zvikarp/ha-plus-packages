@@ -230,3 +230,12 @@ test('view tabs support keyboard selection, roving focus and RTL', async () => {
   assert.equal(control.value, 'cards');
   assert.deepEqual(changes, ['table', 'cards']);
 });
+
+
+test('collection actions fill the sidebar and footers stay compact', async () => {
+  const { collectionLayoutStyles, footerStyles, remoteEditorStyles } = await import('../src/index.js');
+  assert.match(collectionLayoutStyles, /\.ha-plus-collection-create \.ha-plus-create-button \{ width: 100%/);
+  assert.match(footerStyles, /padding: 4px 16px/);
+  assert.match(footerStyles, /min-height: 32px/);
+  assert.match(remoteEditorStyles, /grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
+});
