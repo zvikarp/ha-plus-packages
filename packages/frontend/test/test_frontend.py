@@ -49,7 +49,7 @@ class FrontendTests(unittest.IsolatedAsyncioTestCase):
         self.panels = {}
         self.hass.data[frontend.DATA_PANELS] = self.panels
         self.modules = set()
-        self.hass.data[frontend.DATA_EXTRA_MODULE_URL] = self.modules
+        self.hass.data[frontend.DATA_EXTRA_MODULE_URL] = SimpleNamespace(urls=self.modules)
         self.version = "1.2.3"
         shared.async_get_integration = AsyncMock(
             side_effect=lambda *args: SimpleNamespace(version=self.version)

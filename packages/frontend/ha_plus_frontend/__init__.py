@@ -56,7 +56,8 @@ async def async_register_frontend(
         )
         if legacy:
             state.paths_registered = True
-            registered_urls = hass.data.get(frontend.DATA_EXTRA_MODULE_URL, set())
+            manager = hass.data.get(frontend.DATA_EXTRA_MODULE_URL)
+            registered_urls = manager.urls if manager is not None else ()
             for url in (*extra_js_urls, module_url):
                 previous = next(
                     (item for item in registered_urls if item.startswith(f"{url}?v=")),
