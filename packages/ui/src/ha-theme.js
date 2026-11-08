@@ -1,3 +1,4 @@
+import { preferences } from "./preferences.js";
 /*! Adapted from HA+ Matter Hub. Licensed under Apache-2.0. See ha-plus-ui.NOTICE and ha-plus-ui.LICENSE-APACHE-2.0 in the distribution. */
 const HA_THEME_VARS = [
   "--primary-color",
@@ -35,6 +36,7 @@ const HA_THEME_VARS = [
   "--secondary-font-family",
 ];
 export const defaultHaTheme = {
+  direction: "ltr",
   mode: "light",
   primary: "rgb(3, 169, 244)",
   secondary: "rgb(255, 152, 0)",
@@ -127,6 +129,7 @@ export function readHaTheme() {
     defaultHaTheme.backgroundPaper,
   );
   return {
+    direction: preferences().direction,
     mode:
       colorLuminance(textPrimary) > colorLuminance(backgroundDefault)
         ? "dark"

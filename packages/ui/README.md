@@ -57,7 +57,8 @@ keyboard focus and reduced-motion support for action feedback.
   'Cancel' })` returns a promise resolving to true only for explicit confirmation.
   The host needs an attached shadow root containing `themeStyles`. Native dialog
   owns focus trapping, Escape and focus restoration. Supplied text is never HTML.
-  Keep the host attached and preserve the dialog while awaiting confirmation.
+  Pass `returnFocus` when disabling the trigger while awaiting confirmation.
+  The promise resolves after HA releases the dialog focus trap.
 
 The native `ha-card`, `ha-icon` and `ha-menu-button` elements are owned by Home
 Assistant and must be available in the host frontend. They are isolated here to
@@ -133,3 +134,30 @@ Run `ha-plus-ui-licenses OUTPUT_DIRECTORY` during integration builds. This copie
 the package's MIT license, Apache license and attribution notice into the output
 for distribution with bundled code. For Vite builds, copy them into `public`
 before building so they are included in the standalone frontend too.
+
+## Home Assistant workflows and preferences
+
+Call `loadNativeComponents(host)` on direct panel entry before rendering HA forms.
+The package selects registered HA buttons, fields, menus and dialogs, with
+standalone fallbacks. Pass `hass` as the last argument to `dropdown` to use an
+HA select form. `loadNativeSlider(host)` loads HA’s number-selector slider for direct IR entry.
+`nativeSlider` separates drag previews from release commits. Use `focusControl`
+when restoring focus through HA’s nested selector controls.
+
+Use `showMoreInfo(host, entityId)`, `integrationUrl(domain)` and `navigate` for HA
+entity and integration workflows. `showToast` uses HA notifications, and
+`setActionState` supplies pending and success feedback. Keep permission checks in
+the app and backend.
+
+`applyPreferences`, `formatNumber`, `formatDateTime`, `formatEntityState` and
+`relativeCalendarDate` follow the HA profile and configured timezone. Date-only
+values retain their calendar date. Unit-bearing states use HA's entity formatter.
+`localize` uses HA common labels and app catalogs. App catalogs currently contain
+English. `localizeSchema` translates schema titles and descriptions using
+`schema.<English text>` keys while preserving data keys and enum values.
+
+React consumers can import the typed `@ha-plus/ui/ha` helpers and wrap their app in
+`HaPreferencesProvider` from `@ha-plus/ui/react`. `useHaPreferences` and
+`useLocalizer` follow live profile changes. `@ha-plus/ui/react-mui` provides
+`PageHeader`, `PageLoading`, `PageMessage` and `RetryButton` using the shared MUI
+styles. React and MUI are optional peers supplied by the consuming app.

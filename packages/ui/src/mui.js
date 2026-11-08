@@ -3,6 +3,7 @@ import { createTheme } from "@mui/material/styles";
 import { defaultHaTheme } from "./ha-theme.js";
 export const createAppTheme = (haTheme) =>
   createTheme({
+  direction: haTheme.direction || "ltr",
     palette: {
       mode: haTheme.mode,
       primary: {

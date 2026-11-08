@@ -59,3 +59,41 @@ export function nativeForm(hass, schema, data, change) {
   });
   return form;
 }
+
+/** HA's slider emits preview events during drag and commits on release or keyup. */
+export function nativeSlider({ label, value, min = 0, max = 100, step = 1, disabled = false, hass, preview, change }) {
+  const native = Boolean(document.defaultView?.customElements.get("ha-control-slider"));
+  const tag = native ? "ha-control-slider" : document.defaultView?.customElements.get("ha-slider") ? "ha-slider" : "input";
+  const control = el(tag);
+  if (tag === "input") control.type = "range";
+  Object.assign(control, { min, max, step, value, disabled });
+  control.label = label;
+  control.locale = hass?.locale;
+  control.setAttribute("aria-label", label);
+  let committed = Number(value);
+  const read = event => Number(event.detail?.value ?? control.value);
+  control.addEventListener(native ? "slider-moved" : "input", event => {
+    if (native && event.detail?.value == null) return;
+    const next = read(event);
+    if (!control.disabled && Number.isFinite(next)) preview?.(next);
+  });
+  control.addEventListener(native ? "value-changed" : "change", event => {
+    const next = read(event);
+    if (control.disabled || !Number.isFinite(next) || next < min || next > max || next === committed) return;
+    committed = next;
+    change(next);
+  });
+  return control;
+}
+
+/** Follow HA's nested selector shadow roots when restoring keyboard focus. */
+export async function focusControl(control) {
+  if (!control) return;
+  await control.updateComplete;
+  if (!control.isConnected) return;
+  const inner = control.shadowRoot?.querySelector(
+    "ha-selector, ha-selector-select, ha-select, ha-picker-field, ha-combo-box, ha-input, ha-textfield, input, textarea, button, [tabindex='0']",
+  );
+  if (inner) return focusControl(inner);
+  control.focus?.();
+}

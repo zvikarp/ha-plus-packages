@@ -1,8 +1,11 @@
 /*! Adapted from HA+ Matter Hub. Licensed under Apache-2.0. See ha-plus-ui.NOTICE and ha-plus-ui.LICENSE-APACHE-2.0 in the distribution. */
 export const iframePanelStyles = `
   :host {
-    position: absolute;
-    inset: 0;
+    position: relative;
+    width: 100%;
+    height: 100dvh;
+    box-sizing: border-box;
+    overflow: hidden;
     display: grid;
     grid-template-rows: var(--header-height, 56px) minmax(0, 1fr);
     min-width: 0;
@@ -44,7 +47,7 @@ export const iframePanelStyles = `
     font-size: 12px;
     font-weight: 400;
     opacity: .7;
-    margin-right: 16px;
+    margin-inline-end: 16px;
   }
 
   iframe {

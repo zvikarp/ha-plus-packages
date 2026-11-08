@@ -4,7 +4,7 @@ export const muiStyles = {
   centered: { justifyContent: "center" },
   centeredRow: { display: "flex", alignItems: "center" },
   growColumn: {
-    pl: 1,
+    paddingInlineStart: 1,
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -18,7 +18,7 @@ export const muiStyles = {
   absoluteCenter: { position: "absolute", top: "50%", left: "50%" },
   codeText: { fontFamily: "monospace", fontSize: "0.9em" },
   ellipsis: {
-    marginLeft: 1,
+    marginInlineStart: 1,
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
     overflow: "hidden",
@@ -27,6 +27,7 @@ export const muiStyles = {
   loadingRow: { height: 88 },
   titleRow: {
     display: "flex",
+    flexWrap: "wrap",
     justifyContent: "space-between",
     alignItems: "flex-start",
     gap: 1,
@@ -48,13 +49,13 @@ export const muiStyles = {
   dividerSpacing: { mt: 4, mb: 4 },
   padded: { padding: 2 },
   brandImage: {
-    height: "40px",
-    width: "40px",
+    height: "32px",
+    width: "32px",
     flexShrink: 0,
     objectFit: "contain",
   },
   brandText: { mr: 1, ml: 1 },
-  topBar: { height: "72px" },
+  topBar: { height: "var(--header-height, 56px)" },
   toolbar: { paddingLeft: "0 !important", paddingRight: "0 !important" },
   headerContent: {
     padding: 2,
@@ -101,7 +102,7 @@ export const muiStyles = {
   editor: { minWidth: 0, maxWidth: "100%" },
   editorAction: {
     position: "absolute",
-    right: "0",
+    insetInlineEnd: "0",
     bottom: "0",
   },
 };
