@@ -3,7 +3,7 @@ export const iframePanelStyles = `
   :host {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 100dvh;
     box-sizing: border-box;
     overflow: hidden;
     display: grid;

@@ -1,5 +1,5 @@
 import { nativeForm, nativeTextField, focusControl } from "./native.js";
-/*! @ha-plus/ui v0.4.0-rc.3 | MIT | Copyright (c) 2026 HA+ contributors | https://github.com/zvikarp/ha-plus-packages/blob/main/LICENSE */
+/*! @ha-plus/ui v0.4.0-rc.4 | MIT | Copyright (c) 2026 HA+ contributors | https://github.com/zvikarp/ha-plus-packages/blob/main/LICENSE */
 export { themeStyles, appStyles } from "./styles.js";
 
 import { el, icon, button } from "./dom.js";
@@ -200,14 +200,24 @@ function nativeConfirmation(host, { title, message, confirmLabel, cancelLabel, r
   dialog.append(content);
   return new Promise(resolve => {
     let settled = false;
+    let response = false;
+    let closing = false;
     const finish = confirmed => {
       if (settled) return;
       settled = true;
       observer.disconnect();
-      dialog.open = false;
       dialog.remove();
       resolve(confirmed);
-      Promise.resolve().then(() => focusControl(returnFocus));
+      host.ownerDocument.defaultView.requestAnimationFrame(() => focusControl(returnFocus));
+    };
+    const close = confirmed => {
+      if (closing || settled) return;
+      closing = true;
+      response = confirmed;
+      cancel.disabled = true;
+      confirm.disabled = true;
+      // Let HA finish hiding and release its focus trap before removing the node.
+      dialog.open = false;
     };
     const observer = new host.ownerDocument.defaultView.MutationObserver(() => {
       if (!host.shadowRoot.contains(dialog) || (connected && !host.isConnected)) finish(false);
@@ -215,9 +225,9 @@ function nativeConfirmation(host, { title, message, confirmLabel, cancelLabel, r
     const connected = host.isConnected;
     observer.observe(host.shadowRoot, { childList: true });
     if (connected) observer.observe(host.ownerDocument, { childList: true, subtree: true });
-    const cancel = button(cancelLabel, () => finish(false));
+    const cancel = button(cancelLabel, () => close(false));
     cancel.setAttribute("autofocus", "");
-    const confirm = button(confirmLabel, () => finish(true), false, "primary");
+    const confirm = button(confirmLabel, () => close(true), false, "primary");
     if (modern) {
       const footer = el("div", undefined, "ha-plus-dialog-actions");
       footer.slot = "footer";
@@ -228,7 +238,7 @@ function nativeConfirmation(host, { title, message, confirmLabel, cancelLabel, r
       confirm.slot = "primaryAction";
       dialog.append(cancel, confirm);
     }
-    dialog.addEventListener("closed", () => finish(false));
+    dialog.addEventListener("closed", () => finish(response));
     host.shadowRoot.append(dialog);
     dialog.open = true;
     Promise.resolve(dialog.updateComplete).then(() => { if (!settled) focusControl(cancel); });

@@ -57,7 +57,8 @@ keyboard focus and reduced-motion support for action feedback.
   'Cancel' })` returns a promise resolving to true only for explicit confirmation.
   The host needs an attached shadow root containing `themeStyles`. Native dialog
   owns focus trapping, Escape and focus restoration. Supplied text is never HTML.
-  Keep the host attached and preserve the dialog while awaiting confirmation.
+  Pass `returnFocus` when disabling the trigger while awaiting confirmation.
+  The promise resolves after HA releases the dialog focus trap.
 
 The native `ha-card`, `ha-icon` and `ha-menu-button` elements are owned by Home
 Assistant and must be available in the host frontend. They are isolated here to

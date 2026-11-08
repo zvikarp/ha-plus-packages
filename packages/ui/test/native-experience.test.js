@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { JSDOM } from 'jsdom';
-import { preferences, formatNumber, formatDateTime, relativeCalendarDate, localize, dropdown, nativeSlider, showMoreInfo, showToast, navigate, overflowMenu, confirmDialog } from '../src/index.js';
+import { preferences, formatNumber, formatDateTime, relativeCalendarDate, localize, dropdown, nativeSlider, showMoreInfo, showToast, navigate, overflowMenu, confirmDialog, iframePanelStyles } from '../src/index.js';
 
 function setup(tags = []) {
   const { window } = new JSDOM('<!doctype html><body></body>', { url: 'https://ha.example/', pretendToBeVisual: true });
@@ -100,7 +100,7 @@ test('native confirmation cancels safely and restores focus', async () => {
   const dialog = host.shadowRoot.querySelector('ha-dialog');
   dialog.dispatchEvent(new view.CustomEvent('closed'));
   assert.equal(await result, false);
-  await new Promise(setImmediate);
+  await new Promise(resolve => view.requestAnimationFrame(() => view.requestAnimationFrame(resolve)));
   assert.equal(host.shadowRoot.activeElement, trigger);
 });
 
@@ -183,9 +183,42 @@ test('confirmation restores an explicitly supplied control after the caller reen
   host.shadowRoot.append(trigger);
   document.body.append(host);
   const result = confirmDialog(host, { title: 'Water?', message: 'Record?', returnFocus: trigger });
+  const dialog = host.shadowRoot.querySelector("ha-dialog");
   host.shadowRoot.querySelector('ha-dialog [slot="secondaryAction"]').click();
+  assert.equal(dialog.isConnected, true);
+  dialog.dispatchEvent(new view.CustomEvent("closed"));
   assert.equal(await result, false);
   trigger.disabled = false;
-  await new Promise(setImmediate);
+  await new Promise(resolve => view.requestAnimationFrame(() => view.requestAnimationFrame(resolve)));
   assert.equal(trigger.shadowRoot.activeElement.localName, 'button');
+});
+
+test('modern confirmation waits for HA to close before resolving the action', async () => {
+  const view = setup();
+  view.customElements.define('ha-dialog', class extends view.HTMLElement {
+    headerTitle = '';
+  });
+  const host = document.createElement('div');
+  host.attachShadow({ mode: 'open' });
+  document.body.append(host);
+  let resolved = false;
+  const result = confirmDialog(host, { title: 'Water?', message: 'Record?' }).then(value => { resolved = true; return value; });
+  const dialog = host.shadowRoot.querySelector('ha-dialog');
+  const footer = dialog.querySelector('[slot="footer"]');
+  footer.lastChild.click();
+  await Promise.resolve();
+  assert.equal(dialog.open, false);
+  assert.equal(dialog.isConnected, true);
+  assert.equal(resolved, false);
+  assert.equal(footer.firstChild.disabled, true);
+  dialog.dispatchEvent(new view.CustomEvent('closed'));
+  assert.equal(await result, true);
+  assert.equal(dialog.isConnected, false);
+});
+
+
+test('iframe panels retain document flow and fill the dynamic viewport', () => {
+  assert.match(iframePanelStyles, /position: relative/);
+  assert.match(iframePanelStyles, /height: 100dvh/);
+  assert.match(iframePanelStyles, /grid-template-rows: var\(--header-height, 56px\) minmax\(0, 1fr\)/);
 });
