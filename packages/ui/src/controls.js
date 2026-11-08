@@ -166,26 +166,6 @@ export const controlStyles = `${appStyles}
     }
   }
 
-  header {
-    padding: 16px;
-    border-bottom: 1px solid var(--divider-color);
-    display: flex;
-    gap: 16px;
-    align-items: center;
-    background: var(--app-header-background-color);
-    color: var(--app-header-text-color);
-  }
-
-  h1 {
-    font-size: 20px;
-    font-weight: 400;
-    margin: 0;
-  }
-
-  header .heading {
-    flex: 1;
-  }
-
   main {
     max-width: 1000px;
     margin: auto;

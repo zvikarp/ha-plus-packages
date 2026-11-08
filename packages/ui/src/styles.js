@@ -1,5 +1,33 @@
+/** One toolbar across HA+ panels, including iframe hosts. */
+export const panelHeaderStyles = `
+  .ha-plus-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: var(--header-height, 56px);
+    min-height: var(--header-height, 56px);
+    padding: 0 12px;
+    box-sizing: border-box;
+    font-family: var(--ha-font-family-body, var(--primary-font-family, Roboto, sans-serif));
+    border-bottom: 1px solid var(--divider-color, #e0e0e0);
+    background: var(--app-header-background-color, var(--primary-background-color, #fafafa));
+    color: var(--app-header-text-color, var(--primary-text-color, #212121));
+  }
+  .ha-plus-header-heading { flex: 1; min-width: 0; }
+  .ha-plus-header h1 { margin: 0; font-size: 20px; font-weight: 400; line-height: 24px; overflow-wrap: anywhere; }
+  .ha-plus-header-icon { width: 32px; height: 32px; object-fit: contain; flex-shrink: 0; }
+  .ha-plus-header :is(ha-menu-button, ha-icon-button) { flex-shrink: 0; }
+  @media (max-width: 480px) {
+    .ha-plus-header { gap: 4px; padding-inline: 4px; }
+    .ha-plus-header h1 { font-size: 18px; line-height: 22px; }
+  }
+`;
+
 /** Theme styles are scoped to the consuming shadow root and inherit HA variables. */
-export const themeStyles = `
+export const themeStyles = `${panelHeaderStyles}
   :host { display:block; color:var(--primary-text-color,#212121); font-family:var(--primary-font-family,var(--paper-font-body1_-_font-family,Roboto,sans-serif)); }
   *, *::before, *::after { box-sizing:border-box; }
   [hidden] { display:none !important; }
@@ -23,8 +51,6 @@ export const themeStyles = `
   .listbox { position:absolute; z-index:10; inset-inline:0; top:100%; margin-top:4px; max-height:300px; overflow:auto; padding:6px; background:var(--card-background-color,#fff); border:1px solid var(--divider-color,#e0e0e0); border-radius:14px; box-shadow:var(--ha-card-box-shadow,0 4px 16px #0003); }
   .option { display:block; width:100%; text-align:start; border-radius:10px; background:transparent; color:var(--primary-text-color,#212121); white-space:normal; overflow-wrap:anywhere; }
   .option[aria-selected=true] { color:var(--primary-color,#03a9f4); background:var(--secondary-background-color,#f5f5f5); }
-  .ha-plus-header { display:flex; align-items:center; gap:12px; padding:4px 16px; min-height:var(--header-height,56px); background:var(--app-header-background-color,var(--primary-background-color,#fafafa)); color:var(--app-header-text-color,var(--primary-text-color,#212121)); }
-  .ha-plus-header h1 { font-size:20px; font-weight:400; flex:1; margin:0; }
   .ha-plus-content { max-width:1000px; margin:auto; padding:24px; }
   .notice { padding:12px 16px; margin-bottom:16px; background:var(--secondary-background-color,#f5f5f5); border-radius:14px; overflow-wrap:anywhere; }
   .error { color:var(--error-color,#db4437); white-space:pre-wrap; }
@@ -46,7 +72,6 @@ export const nativeStyles = `
   .ha-plus-dialog-actions { display: flex; flex-wrap: wrap; justify-content: end; gap: 8px; }
   ha-alert.notice { padding: 0; background: transparent; }
   ha-form.field { min-width: 0; }
-  .ha-plus-header { min-height: var(--header-height, 56px); border-bottom: 1px solid var(--divider-color, #e0e0e0); }
   ha-dialog { --mdc-dialog-min-width: min(420px, calc(100vw - 32px)); --mdc-dialog-max-width: 560px; }
 `;
 
@@ -148,13 +173,6 @@ export const appStyles = `${themeStyles}${nativeStyles}
     gap: 12px;
   }
 
-  .ha-plus-group {
-    border-inline-start: 4px solid var(--divider-color, #e0e0e0);
-  }
-
-  .ha-plus-group.active {
-    border-inline-start-color: var(--primary-color, #03a9f4);
-  }
 
   .ha-plus-value {
     margin: 12px 0 4px;

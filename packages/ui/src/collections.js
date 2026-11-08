@@ -19,26 +19,6 @@ export const collectionStyles = `${appStyles}
     display: none !important;
   }
 
-  .toolbar {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    height: var(--header-height, 56px);
-    padding: 0 12px;
-    color: var(--app-header-text-color);
-    background: var(--app-header-background-color);
-    border-bottom: 1px solid var(--divider-color);
-  }
-
-  .toolbar h1 {
-    flex: 1;
-    margin: 0 16px;
-    font-size: var(--ha-font-size-xl, 20px);
-    font-weight: var(--ha-font-weight-normal, 400);
-  }
-
   .layout {
     display: grid;
     grid-template-columns: 256px minmax(0, 1fr);

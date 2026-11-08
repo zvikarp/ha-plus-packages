@@ -27,6 +27,7 @@ export function actionButton(
 export function iconButton(label, name, handler, disabled = false) {
   const node = el("ha-icon-button");
   node.label = label;
+  node.setAttribute("aria-label", label);
   node.disabled = disabled;
   node.append(icon(name));
   node.addEventListener("click", () => {

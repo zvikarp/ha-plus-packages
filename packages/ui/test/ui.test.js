@@ -186,3 +186,18 @@ test('native HA helpers support modern and legacy controls, forms and color pres
     assert.throws(() => colorSwatch(swatch, invalid), TypeError);
   }
 });
+
+test('shared panel header provides color brand, refresh and admin-only settings', () => {
+  setup();
+  let refreshes = 0;
+  const header = panelHeader('HA+ Lists', { hass: { user: { is_admin: true } }, domain: 'lists_plus', iconUrl: '/lists_plus/icon.png', onRefresh: () => refreshes++ });
+  assert.equal(header.querySelector('img').getAttribute('src'), '/lists_plus/icon.png');
+  assert.equal(header.querySelector('img').alt, '');
+  const controls = header.querySelectorAll('ha-icon-button');
+  assert.equal(controls.length, 2);
+  controls[0].click();
+  assert.equal(refreshes, 1);
+  assert.ok(header.querySelector('[data-settings]'));
+  const member = panelHeader('HA+ Lists', { hass: { user: { is_admin: false } }, domain: 'lists_plus' });
+  assert.equal(member.querySelector('[data-settings]'), null);
+});

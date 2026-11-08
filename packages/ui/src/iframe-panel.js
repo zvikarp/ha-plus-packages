@@ -1,5 +1,6 @@
+import { panelHeaderStyles } from "./styles.js";
 /*! Adapted from HA+ Matter Hub. Licensed under Apache-2.0. See ha-plus-ui.NOTICE and ha-plus-ui.LICENSE-APACHE-2.0 in the distribution. */
-export const iframePanelStyles = `
+export const iframePanelStyles = `${panelHeaderStyles}
   :host {
     position: relative;
     width: 100%;
@@ -12,44 +13,6 @@ export const iframePanelStyles = `
     min-height: 0;
   }
 
-  header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-width: 0;
-    font: 500 20px var(--primary-font-family, Roboto, sans-serif);
-    background: var(--app-header-background-color);
-    color: var(--app-header-text-color);
-  }
-
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    min-width: 0;
-    color: inherit;
-    text-decoration: none;
-  }
-
-  header img {
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
-  }
-
-  header span {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  .version {
-    font-size: 12px;
-    font-weight: 400;
-    opacity: .7;
-    margin-inline-end: 16px;
-  }
-
   iframe {
     display: block;
     border: 0;
@@ -58,10 +21,4 @@ export const iframePanelStyles = `
     min-height: 0;
   }
 
-  @media (max-width: 400px) {
-    header {
-      gap: 8px;
-      font-size: 18px;
-    }
-  }
 `;

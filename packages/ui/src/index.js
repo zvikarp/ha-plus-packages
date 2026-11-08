@@ -1,8 +1,11 @@
 import { nativeForm, nativeTextField, focusControl } from "./native.js";
-/*! @ha-plus/ui v0.4.0-rc.4 | MIT | Copyright (c) 2026 HA+ contributors | https://github.com/zvikarp/ha-plus-packages/blob/main/LICENSE */
+/*! @ha-plus/ui v0.3.2 | MIT | Copyright (c) 2026 HA+ contributors | https://github.com/zvikarp/ha-plus-packages/blob/main/LICENSE */
 export { themeStyles, appStyles } from "./styles.js";
 
 import { el, icon, button } from "./dom.js";
+import { iconButton } from "./native.js";
+import { integrationUrl, navigate } from "./ha-actions.js";
+import { localize } from "./localize.js";
 export { el, icon, button } from "./dom.js";
 
 let nextId = 0;
@@ -113,7 +116,7 @@ export function textField(label, { name, required = false, maxLength, disabled =
 }
 
 /** HA owns its menu button, including sidebar behavior and narrow layouts. */
-export function panelHeader(title, { hass, narrow, actions = [], subtitle } = {}) {
+export function panelHeader(title, { hass, narrow, actions = [], subtitle, domain, iconUrl, onRefresh, refreshing = false } = {}) {
   const header = el("header", undefined, "ha-plus-header");
   const menu = el("ha-menu-button");
   menu.hass = hass;
@@ -121,7 +124,21 @@ export function panelHeader(title, { hass, narrow, actions = [], subtitle } = {}
   const heading = el("div", undefined, "ha-plus-header-heading");
   heading.append(el("h1", title));
   if (subtitle) heading.append(el("p", subtitle, "ha-plus-muted"));
-  header.append(menu, heading, ...actions);
+  header.append(menu);
+  if (iconUrl) {
+    const logo = el("img", undefined, "ha-plus-header-icon");
+    logo.src = iconUrl;
+    logo.alt = "";
+    header.append(logo);
+  }
+  header.append(heading);
+  if (onRefresh) header.append(iconButton(localize(hass, {}, "common.refresh"), "mdi:refresh", onRefresh, refreshing));
+  header.append(...actions);
+  if (domain && hass?.user?.is_admin) {
+    const settings = iconButton(localize(hass, {}, "settings"), "mdi:cog", () => navigate(header, integrationUrl(domain)));
+    settings.dataset.settings = "";
+    header.append(settings);
+  }
   return header;
 }
 

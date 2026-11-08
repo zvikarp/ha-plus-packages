@@ -73,13 +73,31 @@ export const createAppTheme = (haTheme) =>
         },
         styleOverrides: {
           root: {
-            minHeight: 36,
-            padding: "6px 16px",
-            borderRadius: 4,
+            minHeight: "var(--ha-button-height, 40px)",
+            padding: "0 16px",
+            borderRadius: "var(--ha-button-border-radius, 999px)",
+            fontFamily: "var(--ha-font-family-body, var(--primary-font-family, Roboto, sans-serif))",
+            fontSize: "var(--ha-font-size-m, 14px)",
+            fontWeight: "var(--ha-font-weight-medium, 500)",
             textTransform: "none",
+            whiteSpace: "normal",
+            "&.Mui-focusVisible": {
+              outline: `2px solid ${haTheme.primary}`,
+              outlineOffset: 2,
+            },
             "@media (max-width: 599.95px)": {
               minHeight: 44,
             },
+          },
+          containedPrimary: {
+            backgroundColor: `var(--ha-color-fill-primary-normal-resting, ${haTheme.primary})`,
+            color: `var(--ha-color-on-primary-normal, ${haTheme.appHeaderText})`,
+            "&:hover": {
+              backgroundColor: `var(--ha-color-fill-primary-normal-hover, ${haTheme.primary})`,
+            },
+          },
+          textPrimary: {
+            color: `var(--ha-color-on-primary-quiet, ${haTheme.primary})`,
           },
         },
       },

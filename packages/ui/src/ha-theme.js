@@ -76,7 +76,13 @@ function copyHaThemeVars() {
   if (!parentStyles) {
     return;
   }
-  for (const variable of HA_THEME_VARS) {
+  const variables = new Set(HA_THEME_VARS);
+  // Native HA controls rendered inside an iframe need the same design tokens.
+  for (let index = 0; index < parentStyles.length; index++) {
+    const name = parentStyles[index];
+    if (name.startsWith("--ha-")) variables.add(name);
+  }
+  for (const variable of variables) {
     const value = parentStyles.getPropertyValue(variable)?.trim();
     if (value) {
       localRoot.style.setProperty(variable, value);
