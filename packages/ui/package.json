@@ -1,6 +1,6 @@
 {
   "name": "@ha-plus/ui",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Home Assistant-native theme styles and accessible UI primitives for HA+",
   "type": "module",
   "license": "(MIT AND Apache-2.0)",
@@ -30,6 +30,10 @@
     "./react-mui": {
       "types": "./src/react-mui.d.ts",
       "default": "./src/react-mui.js"
+    },
+    "./collections": {
+      "types": "./src/collection-layout.d.ts",
+      "default": "./src/collection-layout.js"
     }
   },
   "files": [

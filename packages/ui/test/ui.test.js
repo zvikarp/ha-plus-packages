@@ -201,3 +201,32 @@ test('shared panel header provides color brand, refresh and admin-only settings'
   const member = panelHeader('HA+ Lists', { hass: { user: { is_admin: false } }, domain: 'lists_plus' });
   assert.equal(member.querySelector('[data-settings]'), null);
 });
+
+test('shared footer has safe links and the installed app version', async () => {
+  setup();
+  const { appFooter } = await import('../src/index.js');
+  const footer = appFooter({ githubUrl: 'https://github.com/ha-plus/app', documentationUrl: 'https://example.com/docs', version: 'v1.2.3' });
+  assert.equal(footer.querySelector('[data-version]').textContent, 'v1.2.3');
+  assert.equal(footer.querySelectorAll('a').length, 2);
+  assert.equal(footer.querySelector('a').rel, 'noopener noreferrer');
+  assert.equal(appFooter({ githubUrl: 'https://github.com/ha-plus/app' }).querySelectorAll('a').length, 1);
+});
+
+test('view tabs support keyboard selection, roving focus and RTL', async () => {
+  const window = setup();
+  const { tabs } = await import('../src/index.js');
+  const changes = [];
+  const control = tabs([{ value: 'cards', label: 'Cards' }, { value: 'table', label: 'Table' }], 'cards', value => changes.push(value), 'Plant view');
+  document.body.append(control);
+  const [cards, table] = control.querySelectorAll('[role=tab]');
+  assert.equal(cards.getAttribute('aria-selected'), 'true');
+  assert.equal(table.tabIndex, -1);
+  cards.dispatchEvent(new window.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+  assert.equal(document.activeElement, table);
+  assert.equal(control.value, 'table');
+  assert.equal(table.getAttribute('aria-selected'), 'true');
+  control.style.direction = 'rtl';
+  table.dispatchEvent(new window.KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+  assert.equal(control.value, 'cards');
+  assert.deepEqual(changes, ['table', 'cards']);
+});

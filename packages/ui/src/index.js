@@ -1,5 +1,5 @@
 import { nativeForm, nativeTextField, focusControl } from "./native.js";
-/*! @ha-plus/ui v0.3.2 | MIT | Copyright (c) 2026 HA+ contributors | https://github.com/zvikarp/ha-plus-packages/blob/main/LICENSE */
+/*! @ha-plus/ui v0.3.3 | MIT | Copyright (c) 2026 HA+ contributors | https://github.com/zvikarp/ha-plus-packages/blob/main/LICENSE */
 export { themeStyles, appStyles } from "./styles.js";
 
 import { el, icon, button } from "./dom.js";
@@ -261,3 +261,7 @@ function nativeConfirmation(host, { title, message, confirmLabel, cancelLabel, r
     Promise.resolve(dialog.updateComplete).then(() => { if (!settled) focusControl(cancel); });
   });
 }
+
+export { appFooter, footerStyles } from "./footer.js";
+export { collectionLayoutStyles, collectionCreateButton } from "./collection-layout.js";
+export { tabs, tabStyles } from "./tabs.js";

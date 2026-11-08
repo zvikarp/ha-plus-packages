@@ -67,6 +67,15 @@ export const createAppTheme = (haTheme) =>
           },
         },
       },
+      MuiToolbar: {
+        styleOverrides: {
+          root: {
+            minHeight: "var(--header-height, 56px)",
+            "@media (min-width: 600px)": { minHeight: "var(--header-height, 56px)" },
+            "@media (max-width: 599.95px) and (orientation: landscape)": { minHeight: "var(--header-height, 56px)" },
+          },
+        },
+      },
       MuiButton: {
         defaultProps: {
           disableElevation: true,
@@ -191,6 +200,17 @@ export const createAppTheme = (haTheme) =>
               margin: "12px 0",
             },
           },
+        },
+      },
+      MuiTabs: {
+        styleOverrides: {
+          root: { minHeight: 48, borderBottom: `1px solid ${haTheme.divider}` },
+          indicator: { height: 3 },
+        },
+      },
+      MuiTab: {
+        styleOverrides: {
+          root: { minHeight: 48, textTransform: "none", fontSize: 14, fontWeight: 500 },
         },
       },
       MuiTableCell: {

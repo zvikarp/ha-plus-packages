@@ -1,6 +1,7 @@
+import { collectionLayoutStyles } from "./collection-layout.js";
 import { appStyles } from "./styles.js";
 
-export const collectionStyles = `${appStyles}
+export const collectionStyles = `${appStyles}${collectionLayoutStyles}
 
   :host {
     display: block;
@@ -19,77 +20,7 @@ export const collectionStyles = `${appStyles}
     display: none !important;
   }
 
-  .layout {
-    display: grid;
-    grid-template-columns: 256px minmax(0, 1fr);
-    min-height: calc(100dvh - var(--header-height, 56px));
-  }
-
-  nav {
-    padding: 12px 8px;
-    border-inline-end: 1px solid var(--divider-color);
-    background: var(--sidebar-background-color, var(--card-background-color));
-  }
-
-  nav h2 {
-    margin: 20px 16px 8px;
-    color: var(--secondary-text-color);
-    font-size: var(--ha-font-size-s, 12px);
-    font-weight: var(--ha-font-weight-medium, 500);
-  }
-
-  .list-button {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    width: 100%;
-    min-height: 56px;
-    padding: 8px 16px;
-    border: 0;
-    border-radius: var(--ha-border-radius-sm, 4px);
-    background: transparent;
-    color: var(--primary-text-color);
-    text-align: start;
-    font: inherit;
-    cursor: pointer;
-  }
-
-  .list-button:hover {
-    background: var(--secondary-background-color);
-  }
-
-  .list-button.active {
-    color: var(--primary-color);
-    background: var(--ha-color-fill-primary-quiet-resting, var(--secondary-background-color));
-  }
-
-  .list-name {
-    flex: 1;
-    overflow-wrap: anywhere;
-  }
-
-  .list-count {
-    color: var(--secondary-text-color);
-    font-size: var(--ha-font-size-s, 12px);
-  }
-
-  .list-button:focus-visible, .item-name:focus-visible {
-    outline: 2px solid var(--primary-color);
-    outline-offset: -2px;
-  }
-
-  .mobile-lists {
-    display: none;
-    padding: 16px;
-  }
-
-  .content {
-    width: 100%;
-    max-width: 680px;
-    min-width: 0;
-    margin: 0 auto;
-    padding: 24px;
-  }
+  .content { width: 100%; max-width: 680px; min-width: 0; margin: 0 auto; padding: 24px; }
 
   ha-card {
     display: block;
@@ -153,7 +84,7 @@ export const collectionStyles = `${appStyles}
     align-items: center;
     gap: 8px;
     min-height: 56px;
-    padding: 4px 8px;
+    padding: 4px 16px 4px 24px;
   }
 
   .item + .item {
@@ -304,16 +235,18 @@ export const collectionStyles = `${appStyles}
     display: none;
   }
 
-  .compact .layout {
+  .compact .ha-plus-collection-layout {
     display: block;
     min-height: 0;
   }
 
-  .compact nav {
+  .compact .ha-plus-collection-body { min-height: 0; }
+
+  .compact .ha-plus-collection-nav {
     display: none;
   }
 
-  .compact .mobile-lists {
+  .compact .ha-plus-collection-mobile {
     display: block;
     padding: 0 0 12px;
   }
@@ -324,15 +257,6 @@ export const collectionStyles = `${appStyles}
   }
 
   @container (max-width: 750px) {
-    .layout {
-      display: block;
-    }
-    nav {
-      display: none;
-    }
-    .mobile-lists {
-      display: block;
-    }
     .content {
       padding: 0 16px 24px;
     }

@@ -1,4 +1,5 @@
 /*! Adapted from HA+ Matter Hub. Apache-2.0. See bundled notices. */
+import { footerStyles } from "./footer.js";
 import { jsx, jsxs } from "react/jsx-runtime";
 import { useLocalizer } from "./react.js";
 import { muiStyles } from "./mui.js";
@@ -63,6 +64,37 @@ export function PageHeader({ title, actions }) {
         component: "h1", variant: "h6", sx: muiStyles.wrappingHeading, children: title,
       }),
       actions,
+    ],
+  });
+}
+
+
+export function AppFooter({ githubUrl, documentationUrl, version }) {
+  return jsxs("footer", {
+    className: "ha-plus-footer",
+    children: [
+      jsx("style", { children: footerStyles }),
+      githubUrl && jsx("a", { href: githubUrl, target: "_blank", rel: "noopener noreferrer", children: "GitHub" }),
+      documentationUrl && jsx("a", { href: documentationUrl, target: "_blank", rel: "noopener noreferrer", children: "Documentation" }),
+      jsx("span", { "data-version": "", children: version ? `v${String(version).replace(/^v/, "")}` : "" }),
+    ],
+  });
+}
+
+export function ContentCard({ title, actions, children }) {
+  return jsxs(Paper, {
+    variant: "outlined", sx: muiStyles.contentCard,
+    children: [jsx(PageHeader, { title, actions }), children],
+  });
+}
+
+export function FormActions({ onSave, onCancel, disabled, saving }) {
+  const t = useLocalizer(commonMessages);
+  return jsxs(Stack, {
+    direction: "row", spacing: 1, sx: muiStyles.wrappedActions,
+    children: [
+      jsx(Button, { onClick: onCancel, disabled: saving, children: t("common.cancel") }),
+      jsx(Button, { onClick: onSave, variant: "contained", disabled: disabled || saving, loading: saving, children: t("common.save") }),
     ],
   });
 }
